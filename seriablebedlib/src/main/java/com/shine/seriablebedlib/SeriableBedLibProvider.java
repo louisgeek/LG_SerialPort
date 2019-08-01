@@ -5,20 +5,15 @@ import android.content.Context;
 /**
  * Created by louisgeek on 2018/9/20.
  */
-public class LibraryProvider {
+public class SeriableBedLibProvider {
     private static Context mAppContext;
-    private static boolean mDebug;
-    public static void init(Context context, boolean debug) {
+    public static void init(Context context) {
         mAppContext = context.getApplicationContext();
-        mDebug = debug;
     }
 
     public static Context provideAppContext() {
         return mAppContext;
     }
 
-    public static boolean provideDebug() {
-        return mDebug;
-    }
 
 }

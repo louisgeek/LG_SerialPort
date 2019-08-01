@@ -1,6 +1,6 @@
 package com.shine.serialport;
 
-import com.shine.seriablebedlib.LibraryProvider;
+import com.shine.seriablebedlib.SeriableBedLibProvider;
 
 /**
  * @author noxingde@163.com
@@ -12,6 +12,6 @@ public class App extends BaseApplication {
     public void onCreate() {
         super.onCreate();
         //
-        LibraryProvider.init(this, false);
+        SeriableBedLibProvider.init(this);
     }
 }

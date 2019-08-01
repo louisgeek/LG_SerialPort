@@ -2,7 +2,7 @@ package com.shine.seriablebedlib.serialdog;
 
 import android.view.KeyEvent;
 
-import com.shine.seriablebedlib.LibraryProvider;
+import com.shine.seriablebedlib.SeriableBedLibProvider;
 import com.shine.seriablebedlib.serialdog.bean.KeyUp;
 import com.shine.seriablebedlib.serialdog.serialutil.LogPlus;
 import com.shine.seriablebedlib.serialdog.serialutil.PrefUtils;
@@ -28,7 +28,7 @@ public class A64SerialImpl implements ARMSerial {
 
     public A64SerialImpl(SerialManager serialManager) {
         this.serialManager = serialManager;
-        String dog_version = PrefUtils.getString(LibraryProvider.provideAppContext(), "dog_version", "0");
+        String dog_version = PrefUtils.getString(SeriableBedLibProvider.provideAppContext(), "dog_version", "0");
         dogVersion = dog_version;
     }
 
@@ -121,7 +121,7 @@ public class A64SerialImpl implements ARMSerial {
                     String statue = temp.substring(8, 10);
                     if (!version.equals(dogVersion)) {
                         dogVersion = version;
-                        PrefUtils.getString(LibraryProvider.provideAppContext(), "dog_version", version);
+                        PrefUtils.getString(SeriableBedLibProvider.provideAppContext(), "dog_version", version);
                     }
                     if (statue.equals("02")) {
                         serialManager.serialHandler.
