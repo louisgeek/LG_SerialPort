@@ -1,9 +1,9 @@
 apply plugin: 'com.android.library'
-apply plugin: 'maven'
+//apply plugin: 'maven'
 //maven的升级版
 //apply plugin: 'maen-publish'
 //和 maven uploadArchives 冲突
-//apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.github.dcendents.android-maven'
 group = 'com.github.louisgeek'
 android {
     compileSdkVersion 29
@@ -50,7 +50,7 @@ dependencies {
 
 
 //=======  uploadArchives  start  =======
-uploadArchives {
+/*uploadArchives {
     configuration = configurations.archives
     repositories {
         mavenDeployer {
@@ -77,7 +77,7 @@ artifacts {
     //编译的源码类型
     archives androidSourcesJar
     //archives androidJavadocsJar
-}
+}*/
 //  ======= uploadArchives  end   =======
 
 
