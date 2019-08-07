@@ -1,5 +1,7 @@
 package com.shine.seriablebedlib.serialdog;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.KeyEvent;
 
 import com.shine.seriablebedlib.SeriableBedLibProvider;
@@ -23,12 +25,14 @@ public class A64SerialImpl implements ARMSerial {
     private String temp = "";
 
     private SerialManager serialManager;
-
+    private static final String TAG = "A64SerialImpl";
+    public static final String SCAN_CODE = "scanCode";
     private String dogVersion = "";
+    private Context mContext = SeriableBedLibProvider.provideAppContext();
 
     public A64SerialImpl(SerialManager serialManager) {
         this.serialManager = serialManager;
-        String dog_version = PrefUtils.getString(SeriableBedLibProvider.provideAppContext(), "dog_version", "0");
+        String dog_version = PrefUtils.getString(mContext, "dog_version", "0");
         dogVersion = dog_version;
     }
 
@@ -115,13 +119,13 @@ public class A64SerialImpl implements ARMSerial {
                 Integer.parseInt(temp.substring(8, 10), 16) ^
                 Integer.parseInt(temp.substring(10, 12), 16);
         if (result != checkResult) return;
-        if (from.equals("01")) {
+        if ("01".equals(from)) {
             switch (action) {
                 case "06":
                     String statue = temp.substring(8, 10);
                     if (!version.equals(dogVersion)) {
                         dogVersion = version;
-                        PrefUtils.getString(SeriableBedLibProvider.provideAppContext(), "dog_version", version);
+                        PrefUtils.getString(mContext, "dog_version", version);
                     }
                     if (statue.equals("02")) {
                         serialManager.serialHandler.
@@ -135,6 +139,9 @@ public class A64SerialImpl implements ARMSerial {
                     keyUp.keyCode = 82;
                     keyUp.keyEvent = new KeyEvent(KeyEvent.ACTION_UP, keyUp.keyCode);
                     RxBus.INSTANCE.post(keyUp);
+                    Intent intent = new Intent("com.android.server.PhoneWindowManager.action.EXTKEYEVENT");
+                    intent.putExtra(SCAN_CODE,KeyEvent.KEYCODE_F9);
+                    mContext.sendBroadcast(intent);
                     LogPlus.i("A64SerialImpl", "手屏按键" + keyUp.keyCode);
                     checkResult = Integer.parseInt("7E", 16) ^
                             Integer.parseInt("10", 16) ^
@@ -150,6 +157,7 @@ public class A64SerialImpl implements ARMSerial {
                         e.printStackTrace();
                     }
                     break;
+                    default:
             }
         }
     }
