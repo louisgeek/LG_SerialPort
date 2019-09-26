@@ -75,6 +75,7 @@ public class KeyDownService extends Service {
             keyUp.keyEvent = new KeyEvent(KeyEvent.ACTION_UP, keyUp.keyCode);
             LogPlus.i("post keyUp:" + keyUp.keyCode);
             RxBus.INSTANCE.post(keyUp);
+
         }
     };
 }
