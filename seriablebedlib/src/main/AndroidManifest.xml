@@ -18,5 +18,16 @@
 
     <application>
         <service android:name="com.shine.sss.seriablebedlib.myseriablebedtest.services.KeyDownService" />
+
+
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            android:exported="false"
+            tools:node="merge">
+            <meta-data
+                android:name="com.shine.seriablebedlib.SeriableInitializer"
+                android:value="androidx.startup" />
+        </provider>
     </application>
 </manifest>

@@ -3,7 +3,7 @@ package com.shine.seriablebedlib.serialdog;
 import android.content.Intent;
 import android.view.KeyEvent;
 
-import com.shine.seriablebedlib.SeriableBedLibProvider;
+import com.shine.seriablebedlib._LibraryProvider;
 import com.shine.seriablebedlib.serialdog.bean.KeyUp;
 import com.shine.seriablebedlib.serialdog.serialutil.LogPlus;
 import com.shine.seriablebedlib.serialdog.serialutil.PrefUtils;
@@ -29,7 +29,7 @@ public class A64SerialImpl implements ARMSerial {
 
     public A64SerialImpl(SerialManager serialManager) {
         this.serialManager = serialManager;
-        String dog_version = PrefUtils.getString(SeriableBedLibProvider.provideAppContext(), "dog_version", "0");
+        String dog_version = PrefUtils.getString(_LibraryProvider.provideAppContext(), "dog_version", "0");
         dogVersion = dog_version;
     }
 
@@ -84,7 +84,7 @@ public class A64SerialImpl implements ARMSerial {
                 if (result.startsWith("7E") && result.endsWith("AA")) {
                     receive(result, outputStream);
                 }
-                result = temp.substring(16, temp.length());
+                result = temp.substring(16);
                 temp = "";
                 onDataReceive(result, outputStream);
             }
@@ -122,7 +122,7 @@ public class A64SerialImpl implements ARMSerial {
                     String statue = temp.substring(8, 10);
                     if (!version.equals(dogVersion)) {
                         dogVersion = version;
-                        PrefUtils.getString(SeriableBedLibProvider.provideAppContext(), "dog_version", version);
+                        PrefUtils.getString(_LibraryProvider.provideAppContext(), "dog_version", version);
                     }
                     if (statue.equals("02")) {
                         serialManager.serialHandler.
@@ -139,7 +139,7 @@ public class A64SerialImpl implements ARMSerial {
                     Intent intent = new Intent("com.android.server.PhoneWindowManager.action.EXTKEYEVENT");
                     intent.putExtra("scanCode",139);
 //                    intent.putExtra("scanCode",KeyEvent.KEYCODE_F9);
-                    SeriableBedLibProvider.provideAppContext()
+                    _LibraryProvider.provideAppContext()
                             .sendBroadcast(intent);
                     LogPlus.i("A64SerialImpl", "手屏按键" + keyUp.keyCode);
                     checkResult = Integer.parseInt("7E", 16) ^
